@@ -1,31 +1,57 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react';
+import './../App.css';
+import Search from './Search';
+import DisplayData from './DisplayData'
+import axios from 'axios';
+
+class App extends React.Component{
+  constructor(){
+    super();
+
+    this.state = {
+      zipData: []
+      
+    }
+    
+  }
 
 
-function City(props) {
-  return (<div></div>);
-}
+  //Retriving Data 
+  findZipData = (zipcode) => {
+    //console.log(zipcode);
+    axios.get(`https://ctp-zip-api.herokuapp.com/zip/${zipcode}`)
+    .then(res => { this.setState({zipData: res.data});
+       this.goodRes();
+    })
+    .catch(err => {this.setState({zipData: []});
+      this.badRes();
+    })
+  }
 
-function ZipSearchField(props) {
-  return (<div></div>);
-}
+  goodRes= () =>{
+    console.log(this.state.cityData);
+    document.getElementById("error").style.display = "none";
+  }
 
+  badRes = () =>{
+    document.getElementById("error").style.display = "block";
+    setTimeout(this.goodRes, 2000);
+  }
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <h2>Zip Code Search</h2>
-        </div>
-        <ZipSearchField />
-        <div>
-          <City />
-          <City />
-        </div>
+  render(){
+  return (
+    <div className="App">
+      <div className="container">
+        <img src="icons8-search-64.png"/>
+        <h1>Zip Code Search</h1>
+        <p>Enter a Zip Code to find more info!</p>
+        <Search findZipData = {this.findZipData}/>
+        <p id="error">Zip Code Not Found!</p>
+        <DisplayData zipData={this.state.zipData}/>
       </div>
-    );
+      
+    </div>
+  );
   }
 }
 
