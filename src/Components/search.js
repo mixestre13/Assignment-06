@@ -1,21 +1,42 @@
-import React, { Component } from "react";
+import React from 'react';
 
-class ContactCard extends Component {
+
+
+class Search extends React.Component {
+
+    state = {
+        zipcode: '',
+        isEmpty: true
+    }
+
+    onSubmit = (e) =>{
+        e.preventDefault();
+        this.props.findZipData(this.state.zipcode);
+
+        if(this.state.zipcode === ""){
+            this.setState({isEmpty: true});
+        }
+        else{
+             this.setState({isEmpty: false});
+        }
+    }
+
+    onChange = (e) =>{
+        this.setState({[e.target.name]: e.target.value,  isEmpty: true});
+    }
+
     render() {
-        return ( 
-        <div         
-        style={{display: 'flex',  justifyContent:'center', alignItems:'center', height: '30vh'}}>
-
-            <Ul>
-            <h1>{this. props. name}</h1>
-                <li>Phone: {this. props. phone}</li>
-                <li>Email: {this. props. email}</li>
-                <li>Address: {this. props. address}</li>
-
-            </Ul>
-        </div>
-        );
+        return (
+            <div>
+                <form onSubmit={this.onSubmit}>
+                <input type='text' name="zipcode" value={this.state.zipcode} onChange={this.onChange} placeholder={this.state.isEmpty ? "Enter Zip Code..." : this.state.zipcode}/>
+                <input type='submit' value="submit"/>
+                </form>
+                
+            </div>
+        )
     }
 }
 
-export default ContactCard;
+
+export default Search;

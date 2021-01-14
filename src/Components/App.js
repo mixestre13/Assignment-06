@@ -42,7 +42,7 @@ class App extends React.Component{
   return (
     <div className="App">
       <div className="container">
-        <img src="icons8-search-64.png"/>
+        <img src="icons8-search-64.png" width= "150px" height= "200px"/>
         <h1>Zip Code Search</h1>
         <p>Enter a Zip Code to find more info!</p>
         <Search findZipData = {this.findZipData}/>
@@ -56,3 +56,5 @@ class App extends React.Component{
 }
 
 export default App;
+
+
